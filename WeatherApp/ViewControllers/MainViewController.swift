@@ -13,13 +13,18 @@ class MainViewController: UIViewController {
     @IBOutlet weak var feelsLike: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     
+    let weatherNetworkManager = WheatherNetworkManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        weatherNetworkManager.fetchCurrentWeather(for: "London")
     }
 
     @IBAction func pressChangeCityButton(_ sender: UIButton) {
-        showSearchAlertController(title: "Enter your city", message: nil, style: .alert)
+        showSearchAlertController(title: "Enter your city", message: nil, style: .alert){ city in
+            self.weatherNetworkManager.fetchCurrentWeather(for: city)
+        }
     }
     
 }
