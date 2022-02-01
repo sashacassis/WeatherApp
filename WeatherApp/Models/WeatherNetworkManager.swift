@@ -14,10 +14,21 @@ struct WheatherNetworkManager {
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: url) { data, response, error in
             if let data = data {
-                let dataString = String(data: data, encoding: .utf8)
-                print(dataString!)
+                let currentWeather = self.parseJSON(data: data)
             }
         }
         task.resume()
+    }
+    
+    func parseJSON(data: Data) -> CurrentWeather? {
+        let decoder = JSONDecoder()
+        do {
+        let currentWeather = try decoder.decode(CurrentWeatherData.self, from: data)
+            guard let currentWeather = CurrentWeather(currentWeatherData: currentWeather) else {return nil}
+            return currentWeather
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
     }
 }
