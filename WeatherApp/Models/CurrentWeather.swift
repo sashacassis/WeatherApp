@@ -21,6 +21,18 @@ struct CurrentWeather {
     }
     
     let conditionCode: Int
+    var systemIconString: String {
+        switch conditionCode {
+        case 200...232: return "cloud.bolt.rain"
+        case 300...321: return "cloud.drizzle"
+        case 500...531: return "cloud.heavyrain"
+        case 600...622: return "snow"
+        case 701...781: return "smoke"
+        case 800: return "sun.max"
+        case 801...804: return "cloud"
+        default: return "nosign"
+        }
+    }
     
     init? (currentWeatherData: CurrentWeatherData) {
         cityName = currentWeatherData.name
